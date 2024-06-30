@@ -7,39 +7,49 @@
     <title>Calculator</title>
 </head>
 <body>
-  <div class="container">
-    <div class="numbers-zero-dot-equal">
-        <div class="numbers">
-            <div class="one-three">
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
+    <div class="container">
+        <input type="text" class="input">    
+        <div class="buttons-container">
+            <div class="numbers-zero-dot-equal">
+                <div class="numbers">
+                    <div class="one-three">
+                        <button>1</button>
+                        <button>2</button>
+                        <button>3</button>
+                    </div>
+                    <div class="four-six">
+                        <button>4</button>
+                        <button>5</button>
+                        <button>6</button>
+                    </div>
+                    <div class="seven-nine">
+                        <button>7</button>
+                        <button>8</button>
+                        <button>9</button>
+                    </div>
+                </div>
+                
+                <div class="zero-dot">
+                    <button id="zero">0</button>
+                    <button id="dot">.</button>
+                    
+                </div>
             </div>
-            <div class="four-six">
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-            </div>
-            <div class="seven-nine">
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-            </div>
-        </div>
-        
-        <div class="zero-dot-equal">
-            <button>0</button>
-            <button>.</button>
-            <button>=</button>
-        </div>
-    </div>
-        <div class="operations">
-            <button>+</button>
-            <button>-</button>
-            <button>*</button>
-            <button>/</button>
-        </div>
-    
-  </div>  
+                <div class="operations">
+                    <div class="plus-minus">
+                        <button>+</button>
+                        <button>-</button>
+                    </div>
+                    <div class="multi-div">
+                        <button>*</button>
+                        <button>/</button>
+                    </div>
+                    
+                    <button id="equal">=</button>
+                    
+                </div>
+
+        </div> 
+    </div> 
 </body>
 </html>
