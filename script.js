@@ -8,6 +8,8 @@ let zeroDot = document.querySelector(".zero-dot")
 let zeroDotBtn = zeroDot.querySelectorAll("button")
 let equalBtn = document.querySelector(".equal")
 let clearBtn = document.querySelector("#clear")
+let keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 
 zeroDotBtn.forEach((button) =>{
     button.addEventListener("click",display)
@@ -49,7 +51,7 @@ function display(){
     if(clicked[0])clicked[0].classList.remove("gray")
     clicked.splice(0,1)
     //Clear the input field only when it contains the first operand
-    if(inputDisplay.value == expression[0] || inputDisplay.value == "Seriously?"+'\u{1F620}'){
+    if(inputDisplay.value == expression[0] || inputDisplay.value == "Seriously?"+'\u{1F620}' ){
         inputDisplay.value = ""
     }
     inputDisplay.value+=number 
@@ -61,7 +63,7 @@ function equal(){
     expression[0] = Number(inputDisplay.value)
 }
 
-function evaluate(a,operation,b){
+function evaluate(a = 0 ,operation = "+" ,b = 0 ){
     if(operation == "+"){
         return a + b;
     }
