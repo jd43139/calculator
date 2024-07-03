@@ -1,25 +1,24 @@
 let inputDisplay = document.querySelector('.input')
 let expression = []
-function displayNumbers(num){
-    
-    inputDisplay.value += num
-}
 
 let buttonsContainer = document.querySelector(".numbers")
 let buttons = buttonsContainer.querySelectorAll("button")
 let operation= document.querySelector(".operations").querySelectorAll("button")
 let zeroDot = document.querySelector(".zero-dot")
 let zeroDotBtn = zeroDot.querySelectorAll("button")
+let equalBtn = document.querySelector(".equal")
+let clearBtn = document.querySelector("#clear")
+
 zeroDotBtn.forEach((button) =>{
     button.addEventListener("click",display)
 })
 buttons.forEach((button) => {
     button.addEventListener("click",display)
 })
+equalBtn.addEventListener("click",equal)
 let clicked = []
 operation.forEach((op)=>{
     op.addEventListener("click", ()=> {
-       
         op.classList.add("gray")
         clicked.push(op)
         let lastIndex = clicked.length-1
@@ -31,16 +30,13 @@ operation.forEach((op)=>{
             
         }
        
-        expression[0] = inputDisplay.value
+        expression[0] = Number(inputDisplay.value)
         expression[1] = op.textContent
     })
     
 })
 
-
-
-
-
+clearBtn.addEventListener("click",clear)
 
 function display(){
     let number = ""
@@ -52,9 +48,17 @@ function display(){
     }
     if(clicked[0])clicked[0].classList.remove("gray")
     clicked.splice(0,1)
-    displayNumbers(number)
-        
-       
+    //Clear the input field only when it contains the first operand
+    if(inputDisplay.value == expression[0] || inputDisplay.value == "Seriously?"+'\u{1F620}'){
+        inputDisplay.value = ""
+    }
+    inputDisplay.value+=number 
+    
+}
+function equal(){
+    expression[2] = Number(inputDisplay.value)
+    inputDisplay.value = evaluate(expression[0],expression[1],expression[2])
+    expression[0] = Number(inputDisplay.value)
 }
 
 function evaluate(a,operation,b){
@@ -68,10 +72,16 @@ function evaluate(a,operation,b){
         return a * b
     }
     if(operation == "/"){
+        if(b === 0){
+            return "Seriously?"+'\u{1F620}'
+        }
         return a / b
     }
 }
-
+function clear(){
+    inputDisplay.value = ""
+    expression = []
+}
 
 
 
@@ -82,7 +92,7 @@ function evaluate(a,operation,b){
  * enter the second number as b and delete the first number and store in the same array
  * Click = button and clear the screen and display the result
  * call evaluate function , the parameters a,operation,b are the first,second,last index of the array respectively
- * Display the result of the function in the inout field
+ * Display the result of the function in the input field
  */
 
 /**
