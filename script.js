@@ -1,53 +1,69 @@
 let inputDisplay = document.querySelector('.input')
 let expression = []
 
-let buttonsContainer = document.querySelector(".numbers")
-let buttons = buttonsContainer.querySelectorAll("button")
+let numberButtons = document.querySelector(".numbers").querySelectorAll("button")
 let operation= document.querySelector(".operations").querySelectorAll("button")
-let zeroDot = document.querySelector(".zero-dot")
-let zeroDotBtn = zeroDot.querySelectorAll("button")
+
+let zeroDotBtn = document.querySelector(".zero-dot").querySelectorAll("button")
 let equalBtn = document.querySelector(".equal")
 let clearBtn = document.querySelector("#clear")
-let keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-
-zeroDotBtn.forEach((button) =>{
-    button.addEventListener("click",display)
-})
-buttons.forEach((button) => {
-    button.addEventListener("click",display)
-})
-equalBtn.addEventListener("click",equal)
+let nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9','.']
 let clicked = []
-operation.forEach((op)=>{
-    op.addEventListener("click", ()=> {
-        op.classList.add("gray")
-        clicked.push(op)
-        let lastIndex = clicked.length-1
-        if(clicked.length >1 && (clicked[lastIndex]!=clicked[lastIndex-1])){
-            for(let i = 0; i<clicked.length-1; i++){    
-                clicked[i].classList.remove("gray")
-            }
-            clicked.splice(0,clicked.length-1)
-            
+
+function handleOperations(op){
+    op.classList.add("gray")
+    clicked.push(op)
+    
+    let lastIndex = clicked.length-1
+    if(clicked.length >1 && (clicked[lastIndex]!=clicked[lastIndex-1])){
+        for(let i = 0; i<clicked.length-1; i++){    
+            clicked[i].classList.remove("gray")
         }
-       
-        expression[0] = Number(inputDisplay.value)
-        expression[1] = op.textContent
+        clicked.splice(0,clicked.length-1)
+    
+    }
+
+    expression[0] = Number(inputDisplay.value)
+    expression[1] = op.textContent
+
+}
+function operationKeys(){
+    let ops = 
+{
+    "+": document.querySelector("#add"),
+    "-": document.querySelector("#subtract"),
+    "*": document.querySelector("#multiply"),
+    "/": document.querySelector("#divide")
+}
+    for (op in ops){
+        if(event.key == op){
+             handleOperations(ops[op])
+        }    
+    }
+}
+
+
+function displayKeys(){
+    nums.forEach((num) =>{
+        if(event.key == num){
+            
+            if(clicked[0])clicked[0].classList.remove("gray")
+            clicked.splice(0,1)
+            //Clear the input field only when it contains the first operand
+            if(inputDisplay.value == expression[0] || inputDisplay.value == "Seriously?"+'\u{1F620}' ){
+                inputDisplay.value = ""
+            }
+           inputDisplay.value+=num
+        }
+        
+        
+        
+        
     })
     
-})
-
-clearBtn.addEventListener("click",clear)
-
+}
 function display(){
-    let number = ""
-    if(this.id == "bDot"){
-        number = "."
-    }else{
-        number = this.id[1]
-
-    }
+    let number = this.textContent
     if(clicked[0])clicked[0].classList.remove("gray")
     clicked.splice(0,1)
     //Clear the input field only when it contains the first operand
@@ -81,9 +97,28 @@ function evaluate(a = 0 ,operation = "+" ,b = 0 ){
     }
 }
 function clear(){
+    
     inputDisplay.value = ""
     expression = []
+    console.log("activated")
+    this.blur()
 }
+
+window.addEventListener("keydown", displayKeys)
+window.addEventListener("keydown", operationKeys)
+window.addEventListener("keydown", () => {if(event.key == "Enter")equal()})
+zeroDotBtn.forEach((button) =>{
+    button.addEventListener("click",display)
+})
+numberButtons.forEach((button) => {
+    button.addEventListener("click",display)
+})
+equalBtn.addEventListener("click",equal)
+
+operation.forEach((op)=> op.addEventListener("click", ()=> { handleOperations(op) }))
+    
+clearBtn.addEventListener("click",clear)
+
 
 
 
