@@ -12,12 +12,15 @@ let clicked = []
 
 function handleOperations(op){
     op.classList.add("gray")
+    op.classList.remove("op-bg")
     clicked.push(op)
     
     let lastIndex = clicked.length-1
     if(clicked.length >1 && (clicked[lastIndex]!=clicked[lastIndex-1])){
         for(let i = 0; i<clicked.length-1; i++){    
             clicked[i].classList.remove("gray")
+            clicked[i].classList.add("op-bg")
+
         }
         clicked.splice(0,clicked.length-1)
     
@@ -25,6 +28,7 @@ function handleOperations(op){
 
     expression[0] = Number(inputDisplay.value)
     expression[1] = op.textContent
+    this.blur()
 
 }
 function operationKeys(){
@@ -47,7 +51,10 @@ function displayKeys(){
     nums.forEach((num) =>{
         if(event.key == num){
             
-            if(clicked[0])clicked[0].classList.remove("gray")
+            if(clicked[0]){
+                clicked[0].classList.remove("gray");
+                clicked[0].classList.add("op-bg");
+            }
             clicked.splice(0,1)
             //Clear the input field only when it contains the first operand
             if(inputDisplay.value == expression[0] || inputDisplay.value == "Seriously?"+'\u{1F620}' ){
@@ -64,19 +71,24 @@ function displayKeys(){
 }
 function display(){
     let number = this.textContent
-    if(clicked[0])clicked[0].classList.remove("gray")
+    if(clicked[0]){
+        clicked[0].classList.remove("gray");
+        clicked[0].classList.add("op-bg");
+    }
     clicked.splice(0,1)
     //Clear the input field only when it contains the first operand
     if(inputDisplay.value == expression[0] || inputDisplay.value == "Seriously?"+'\u{1F620}' ){
         inputDisplay.value = ""
     }
     inputDisplay.value+=number 
+    this.blur()
     
 }
 function equal(){
     expression[2] = Number(inputDisplay.value)
     inputDisplay.value = evaluate(expression[0],expression[1],expression[2])
     expression[0] = Number(inputDisplay.value)
+    this.blur()
 }
 
 function evaluate(a = 0 ,operation = "+" ,b = 0 ){
@@ -107,6 +119,7 @@ function clear(){
 window.addEventListener("keydown", displayKeys)
 window.addEventListener("keydown", operationKeys)
 window.addEventListener("keydown", () => {if(event.key == "Enter")equal()})
+window.addEventListener("keydown", () => {if(event.key == " ")clear()})
 zeroDotBtn.forEach((button) =>{
     button.addEventListener("click",display)
 })
